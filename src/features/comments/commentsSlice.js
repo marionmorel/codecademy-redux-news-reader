@@ -2,20 +2,21 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 // Create loadCommentsForArticleId here.
-export const loadCommentsForArticleId = createAsyncThunk( 
+export const loadCommentsForArticleId = createAsyncThunk(
     'comments/loadCommentsForArticleId',
     async (id) => {
-        const response = await fetch('api/articles/ID/comments');
-        const json = await response.json();
-        return json;
-});
+      const response = await fetch(`api/articles/${id}/comments`);
+      const json = await response.json();
+      return json;
+    });
 
 // Create postCommentForArticleId here.
 export const postCommentForArticleId = createAsyncThunk(
     'comments/postCommentsForArticleId',
     async ({ articleId, comment }) => {
-        const requestBody = JSON.stringify(comment);
-        const response = await fetch(`api/articles/${articleId}/comments`, {
+        const requestBody = JSON.stringify({ comment: comment});
+        const response = await fetch(`api/articles/${articleId}/comments`, 
+        {
             method: 'POST',
             body: requestBody,
         });
