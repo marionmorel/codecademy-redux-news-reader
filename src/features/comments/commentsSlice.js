@@ -16,8 +16,26 @@ export const commentsSlice = createSlice({
     name: 'comments',
     initialState: {
       // Add initial state properties here.
+      byArticleId: {},
+      isLoadingComments: false,
+      failedToLoadComments: false,
     },
     // Add extraReducers here.
+    extraReducers: {
+        [loadCommentsForArticleId.pending]: (state, action) => {
+            state.isLoadingComments = true;
+            state.failedToLoadComments = false;
+        },
+        [loadCommentsForArticleId.fulfilled]: (state, action) => {
+            state.isLoadingComments = false;
+            state.failedToLoadComments = false;
+            state.byArticleId[action.payload.articleId] = action.payload.comments;
+        },
+        [loadCommentsForArticleId.rejected]: (state, action) => {
+            state.isLoadingComments = false;
+            state.failedToLoadComments = true;
+        }
+    }
   });
   
   export const selectComments = (state) => state.comments.byArticleId;
